@@ -8,7 +8,6 @@ public class LiftInvaderAI : MonoBehaviour {
 
     public LiftInvaderStates invaderState;
     public Transform[] wayPoints;
-    public GameObject lift;
 
     [HideInInspector] public WalkTo walkToState;
     [HideInInspector] public OpenLift openLiftState;
@@ -35,13 +34,10 @@ public class LiftInvaderAI : MonoBehaviour {
             default:
                 break;
         }
-		
 	}
 	
 	void Update ()
     {
-        currentState.UpdateState();
-
         if (currentState.ToString() != invaderState.ToString())
         {
             switch (invaderState)
@@ -59,12 +55,14 @@ public class LiftInvaderAI : MonoBehaviour {
                     break;
             }
         }
+        
+        currentState.UpdateState();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OpenLift()
     {
-        if (other.gameObject.CompareTag("Lift"))
-            currentState = openLiftState;
+        invaderState = LiftInvaderStates.OpenLift;
+        navMeshAgent.isStopped = true;
     }
 }
 

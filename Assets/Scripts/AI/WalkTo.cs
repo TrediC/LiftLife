@@ -32,7 +32,6 @@ public class WalkTo : ILiftInvader {
         {
             nextWayPoint = (nextWayPoint + 1) % liftInvaderAI.wayPoints.Length;
         }
-
     }
 
 
