@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ClickerController : MonoBehaviour {
 
@@ -43,6 +44,8 @@ public class ClickerController : MonoBehaviour {
     public Text rateText;
     public bool isTimerRunning = false;
     public GameObject FailScreen;
+    public GameObject WinScreen;
+    public GameObject[] Buttons;
     public Image FailFiller;
     ClickerController instance;
     Vector3 _leftDoorStart;
@@ -59,6 +62,8 @@ public class ClickerController : MonoBehaviour {
 
     void Start () {
         instance = this;
+        rateText.text = "";
+        DisableButtons();
 
         if (depletionRates.Length != floors)
         {
@@ -136,6 +141,11 @@ public class ClickerController : MonoBehaviour {
                 break;
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Restart();
+        }
+
         //// DEBUG ENEMY SPAWNER
         //if (Input.GetKeyDown(KeyCode.E))
         //{
@@ -146,7 +156,7 @@ public class ClickerController : MonoBehaviour {
         //}
 
         // DEBUG
-        rateText.text = "Depletion rate: " + (depletionRates[_currentFloor - 1] + _enemyDepletionRate).ToString();
+        //rateText.text = "Depletion rate: " + (depletionRates[_currentFloor - 1] + _enemyDepletionRate).ToString();
     }
 
     void AdjustHealthSlider()
@@ -345,11 +355,70 @@ public class ClickerController : MonoBehaviour {
     {
         _currentState = PlayerState.Inactive;
         FailScreen.SetActive(true);
+        EnableButtons();
         // Animaation?
     }
 
     public void Win()
     {
+        _currentState = PlayerState.Inactive;
 
+        LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
+        lis.canSpawnEnemys = false;
+
+        StartCoroutine(FadeTo(1f, 3f));
+    }
+
+    IEnumerator FadeTo(float aValue, float aTime)
+    {
+        float alpha = WinScreen.GetComponent<Image>().color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Camera.main.transform.Translate(Vector3.forward * Time.deltaTime);
+            Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
+            WinScreen.GetComponent<Image>().color = newColor;
+            yield return null;
+        }
+        float textAlpha = WinScreen.GetComponentInChildren<Text>().color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(0, 0, 0, Mathf.Lerp(textAlpha, aValue, t));
+            WinScreen.GetComponentInChildren<Text>().color = newColor;
+            yield return null;
+        }
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color newColor = new Color(0, 0, 0, Mathf.Lerp(aValue, 0, t));
+            WinScreen.GetComponentInChildren<Text>().color = newColor;
+            yield return null;
+        }
+        EnableButtons();
+    }
+
+    void EnableButtons()
+    {
+        foreach (GameObject b in Buttons)
+        {
+            b.SetActive(true);
+        }
+    }
+
+    void DisableButtons()
+    {
+        foreach (GameObject b in Buttons)
+        {
+            b.SetActive(false);
+        }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GoToMenu()
+    {
+        // TODO: make menu screen and point this to it.
+        //SceneManager.LoadScene(0);
     }
 }
