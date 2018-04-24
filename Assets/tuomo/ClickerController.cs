@@ -240,7 +240,7 @@ public class ClickerController : MonoBehaviour {
         }
         Enemys = null;
 
-        /*
+        /* NOT IN USE
         foreach(GameObject enemy in enemies)
         {
             //enemies.Remove(enemy);

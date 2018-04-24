@@ -9,7 +9,7 @@ public class LiftInvaderSpawner : MonoBehaviour {
     public GameObject Invader;
     public GameObject[] ListOfSpawnPoints;
 
-    /*
+    /*  NOT IN USE
     [Header("Enemy Wave Settings")]
     [Space(5)]
     public int iWaveCount = 2;
@@ -29,12 +29,11 @@ public class LiftInvaderSpawner : MonoBehaviour {
         }
     }
 
-    IEnumerator SpawnInvaders(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenWaves, float TimeBetweenEnemySpawn)
+    IEnumerator SpawnInvaders(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenEnemySpawn)
     {
         int iWaveCount = WaveCount;
         int iEnemysInWave = EnemysInWave;
         float fTimeBeforeStart = TimeBeforeStart;
-        float fTimeBetweenWaves = TimeBetweenWaves;
         float fTimeBetweenEnemySpawn = TimeBetweenEnemySpawn;
 
         yield return new WaitForSeconds(TimeBeforeStart);
@@ -44,12 +43,11 @@ public class LiftInvaderSpawner : MonoBehaviour {
             Instantiate(Invader, ListOfSpawnPoints[randomSpawn].transform.position, Quaternion.identity);
             yield return new WaitForSeconds(TimeBetweenEnemySpawn);
         }
-        yield return new WaitForSeconds(TimeBetweenWaves);
-        SpawnInvaders(iWaveCount, iEnemysInWave, fTimeBeforeStart, fTimeBetweenWaves, fTimeBetweenEnemySpawn);
+        SpawnInvaders(iWaveCount, iEnemysInWave, fTimeBeforeStart, fTimeBetweenEnemySpawn);
     }
 
-    public void Spawn(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenWaves, float TimeBetweenEnemySpawn)
+    public void Spawn(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenEnemySpawn)
     {
-        StartCoroutine(SpawnInvaders(WaveCount, EnemysInWave, TimeBeforeStart, TimeBetweenWaves, TimeBetweenEnemySpawn));
+        StartCoroutine(SpawnInvaders(WaveCount, EnemysInWave, TimeBeforeStart, TimeBetweenEnemySpawn));
     }
 }
