@@ -9,21 +9,18 @@ public class ClickerController : MonoBehaviour {
     PlayerState _currentState;
 
     [Header("Difficulty settings")]
-    [Space(9)]
+    [Space(11)]
     public Slider healthSlider;
     public float startHealth = 0f;
     public float target = 100f;
     public int floors = 3;
     public float[] depletionRates;
     public float clickPower = 2f;
-<<<<<<< HEAD
     public int WaveCount = 2;
     public int EnemysInWave = 2;
     public float startTime = 2.0f;
     public float nextSpawnTime = 2.0f;
-=======
     public float punchPower = 1f;
->>>>>>> 2c9d4a30fdbdf35489a870ddd47f350f6167b307
 
     [Header("Elevator specs")]
     [Space(5)]
@@ -44,7 +41,7 @@ public class ClickerController : MonoBehaviour {
     [Space(5)]
     public Text floorText;
     public Text rateText;
-
+    public bool isTimerRunning = false;
     ClickerController instance;
     Vector3 _leftDoorStart;
     Vector3 _leftDoorShortStart;
@@ -55,9 +52,8 @@ public class ClickerController : MonoBehaviour {
     int _currentFloor = 1;
     float _enemyDepletionRate;
     float enemyHp = 10;
-
-    //string[] _alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
+    private float failTimer = 0;
+    private float failTimerFail = 20;
 
     void Start () {
         instance = this;
@@ -84,6 +80,15 @@ public class ClickerController : MonoBehaviour {
 	
 	void Update () {
 
+        if (isTimerRunning)
+        {
+            failTimer = Time.time;
+            if (failTimer >= failTimerFail)
+            {
+                Fail();
+            }
+        }
+
         switch (_currentState)
         {
             case PlayerState.Active:
@@ -106,6 +111,7 @@ public class ClickerController : MonoBehaviour {
 
             case PlayerState.Inactive:
                 print("Player inactive");
+                AdjustFloors(0);
                 break;
 
             case PlayerState.Moving:
@@ -149,7 +155,7 @@ public class ClickerController : MonoBehaviour {
         if(_currentHealth < 0)
         {
             _currentHealth = 0;
-            // Lose condition?
+            // Lose condition? If enemies on door and currenthealth < 0
 
             //_currentState = PlayerState.Inactive;
             //print("Player died!");
@@ -206,7 +212,8 @@ public class ClickerController : MonoBehaviour {
                 if(_currentFloor > floors)
                 {
                     Debug.LogError("Win condition reached.");
-                    _currentState = PlayerState.Inactive;
+                    Win();
+                    //_currentState = PlayerState.Inactive;
                 }
                 else
                 {
@@ -231,10 +238,12 @@ public class ClickerController : MonoBehaviour {
     {
         _currentState = PlayerState.DoorsOpening;
 
+        failTimerFail += Time.time;
+
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
-        lis.Spawn(WaveCount, EnemysInWave, startTime , nextSpawnTime);
+        lis.Spawn(WaveCount, EnemysInWave, startTime, nextSpawnTime);
     }
 
     void LevelFinished()
@@ -243,6 +252,8 @@ public class ClickerController : MonoBehaviour {
         _currentState = PlayerState.Moving;
         WaveCount += 1;
         EnemysInWave += 1;
+        failTimer = 0;
+        isTimerRunning = false;
     }
 
     void SetFloorText(int floorNumber)
@@ -284,13 +295,7 @@ public class ClickerController : MonoBehaviour {
     {
         enemies.Add(enemyAdded);
         _enemyDepletionRate += enemyStrength;
-        AssignButtonToEnemy(enemyAdded);
-    }
-
-    void AssignButtonToEnemy(GameObject thisEnemy)
-    {
-        //string s = _alphabet[Random.Range(0, _alphabet.Length)];
-        //thisEnemy.name = s;
+        //AssignButtonToEnemy(enemyAdded);
     }
 
     void HitFirstEnemy()
@@ -320,10 +325,7 @@ public class ClickerController : MonoBehaviour {
             return;
         }
 
-        e.Punched();
-        //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
         e.iHealth = punchPower;
-        _enemyDepletionRate -= enemyStrength;
         print("Nearest enemy punched");
     }
 
@@ -334,4 +336,14 @@ public class ClickerController : MonoBehaviour {
     //    _enemyDepletionRate -= enemyStrength;
     //}
 
+    public void Fail()
+    {
+        _currentState = PlayerState.Inactive;
+        // Animaation?
+    }
+
+    public void Win()
+    {
+
+    }
 }
