@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LiftInvaderAI : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class LiftInvaderAI : MonoBehaviour {
     public LiftInvaderStates invaderState;
     public List<Transform> wayPoints;
     private float _Health = 5;
+    bool _active = true;
     public float iHealth
     {
         get
@@ -19,7 +21,13 @@ public class LiftInvaderAI : MonoBehaviour {
         {
             _Health -= value; if(_Health <= 0)
             {
+                print("Enemy knocked down!");
                 invaderState = LiftInvaderStates.WalkTo;
+                DisableNavigation();
+                StartCoroutine(EnableNavigation(5f));
+                clicker.enemies.Remove(this.gameObject);
+                GetComponent<Rigidbody>().isKinematic = false;
+                GetComponent<Rigidbody>().AddForce(new Vector3(0f, 1f, 1f) * 50f, ForceMode.VelocityChange);
             }
         }
     }
@@ -64,25 +72,28 @@ public class LiftInvaderAI : MonoBehaviour {
 	
 	void Update ()
     {
-        if (currentState.ToString() != invaderState.ToString())
+        if (_active)
         {
-            switch (invaderState)
+            if (currentState.ToString() != invaderState.ToString())
             {
-                case LiftInvaderStates.WalkTo:
-                    invaderState = LiftInvaderStates.WalkTo;
-                    currentState = walkToState;
-                    break;
-                case LiftInvaderStates.OpenLift:
-                    invaderState = LiftInvaderStates.OpenLift;
-                    currentState = openLiftState;
-                    navMeshAgent.isStopped = true;
-                    break;
-                default:
-                    break;
+                switch (invaderState)
+                {
+                    case LiftInvaderStates.WalkTo:
+                        invaderState = LiftInvaderStates.WalkTo;
+                        currentState = walkToState;
+                        break;
+                    case LiftInvaderStates.OpenLift:
+                        invaderState = LiftInvaderStates.OpenLift;
+                        currentState = openLiftState;
+                        navMeshAgent.isStopped = true;
+                        break;
+                    default:
+                        break;
+                }
             }
+
+            currentState.UpdateState();
         }
-        
-        currentState.UpdateState();
     }
 
     public void OpenLift()
@@ -97,6 +108,20 @@ public class LiftInvaderAI : MonoBehaviour {
         invaderState = LiftInvaderStates.WalkTo;
         clicker.enemies.Remove(this.gameObject);
     }
+
+    void DisableNavigation()
+    {
+        GetComponent<NavMeshAgent>().enabled = false;
+        _active = false;
+    }
+
+    IEnumerator EnableNavigation(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GetComponent<NavMeshAgent>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = true;
+        _active = true;
+        _Health = 5f;
+        print("Enemy woke up.");
+    }
 }
-
-

@@ -56,9 +56,6 @@ public class ClickerController : MonoBehaviour {
     float _enemyDepletionRate;
     float enemyHp = 10;
 
-    //string[] _alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-
     void Start () {
         instance = this;
 
@@ -149,7 +146,7 @@ public class ClickerController : MonoBehaviour {
         if(_currentHealth < 0)
         {
             _currentHealth = 0;
-            // Lose condition?
+            // Lose condition? If enemies on door and currenthealth < 0
 
             //_currentState = PlayerState.Inactive;
             //print("Player died!");
@@ -284,13 +281,7 @@ public class ClickerController : MonoBehaviour {
     {
         enemies.Add(enemyAdded);
         _enemyDepletionRate += enemyStrength;
-        AssignButtonToEnemy(enemyAdded);
-    }
-
-    void AssignButtonToEnemy(GameObject thisEnemy)
-    {
-        //string s = _alphabet[Random.Range(0, _alphabet.Length)];
-        //thisEnemy.name = s;
+        //AssignButtonToEnemy(enemyAdded);
     }
 
     void HitFirstEnemy()
@@ -320,18 +311,10 @@ public class ClickerController : MonoBehaviour {
             return;
         }
 
-        e.Punched();
+        //e.Punched();
         //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
         e.iHealth = punchPower;
-        _enemyDepletionRate -= enemyStrength;
+        //_enemyDepletionRate -= enemyStrength;
         print("Nearest enemy punched");
     }
-
-    //public void RemoveEnemy(GameObject enemyRemoved)
-    //{
-    //    enemies.Remove(enemyRemoved);
-    //    Destroy(enemyRemoved);
-    //    _enemyDepletionRate -= enemyStrength;
-    //}
-
 }
