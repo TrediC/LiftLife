@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LiftInvaderAI : MonoBehaviour {
@@ -39,6 +40,8 @@ public class LiftInvaderAI : MonoBehaviour {
         {
             wayPoints.Add(temp[t].transform);
         }
+        wayPoints = wayPoints.OrderBy(
+            x => Vector3.Distance(this.transform.position, x.transform.position)).ToList();
 
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }

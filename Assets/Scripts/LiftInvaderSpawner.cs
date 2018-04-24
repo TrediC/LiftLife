@@ -32,8 +32,14 @@ public class LiftInvaderSpawner : MonoBehaviour {
         yield return new WaitForSeconds(fTimeBeforeStart);
         for (int i = 0; i < iWaveCount; i++)
         {
-            Instantiate(Invader, ListOfSpawnPoints[i].transform.position, Quaternion.identity);
+            int randomSpawn = UnityEngine.Random.Range(0, iWaveCount);
+            SpawnFuntion(randomSpawn);
             yield return new WaitForSeconds(fTimeBetweenEnemySpawns);
         }
+    }
+
+    void SpawnFuntion(int value)
+    {
+        Instantiate(Invader, ListOfSpawnPoints[value].transform.position, Quaternion.identity);
     }
 }
