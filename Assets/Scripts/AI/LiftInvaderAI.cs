@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LiftInvaderAI : MonoBehaviour {
 
-    [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
 
     public LiftInvaderStates invaderState;
     public Transform[] wayPoints;
 
+    [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
     [HideInInspector] public WalkTo walkToState;
     [HideInInspector] public OpenLift openLiftState;
     [HideInInspector] public ILiftInvader currentState;
