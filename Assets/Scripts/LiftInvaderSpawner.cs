@@ -9,37 +9,47 @@ public class LiftInvaderSpawner : MonoBehaviour {
     public GameObject Invader;
     public GameObject[] ListOfSpawnPoints;
 
+    /*
     [Header("Enemy Wave Settings")]
+    [Space(5)]
     public int iWaveCount = 2;
     public int iEnemysInWave = 2;
     public float fTimeBeforeStart = 2;
     public float fTimeBetweenWaves = 3.0f;
     public float fTimeBetweenEnemySpawns = 2.0f;
+    */
 
-    private float timer;
+    public bool canSpawnEnemys = true;
 
-	void Update ()
+    void Update()
     {
-        if(timer < Time.time)
+        if (!canSpawnEnemys)
         {
-            StartCoroutine(SpawnInvaders());
-            timer += fTimeBetweenWaves + Time.time;
+            StopAllCoroutines();
         }
     }
 
-    IEnumerator SpawnInvaders()
+    IEnumerator SpawnInvaders(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenWaves, float TimeBetweenEnemySpawn)
     {
-        yield return new WaitForSeconds(fTimeBeforeStart);
+        int iWaveCount = WaveCount;
+        int iEnemysInWave = EnemysInWave;
+        float fTimeBeforeStart = TimeBeforeStart;
+        float fTimeBetweenWaves = TimeBetweenWaves;
+        float fTimeBetweenEnemySpawn = TimeBetweenEnemySpawn;
+
+        yield return new WaitForSeconds(TimeBeforeStart);
         for (int i = 0; i < iWaveCount; i++)
         {
             int randomSpawn = UnityEngine.Random.Range(0, iWaveCount);
-            SpawnFuntion(randomSpawn);
-            yield return new WaitForSeconds(fTimeBetweenEnemySpawns);
+            Instantiate(Invader, ListOfSpawnPoints[randomSpawn].transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(TimeBetweenEnemySpawn);
         }
+        yield return new WaitForSeconds(TimeBetweenWaves);
+        SpawnInvaders(iWaveCount, iEnemysInWave, fTimeBeforeStart, fTimeBetweenWaves, fTimeBetweenEnemySpawn);
     }
 
-    void SpawnFuntion(int value)
+    public void Spawn(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenWaves, float TimeBetweenEnemySpawn)
     {
-        Instantiate(Invader, ListOfSpawnPoints[value].transform.position, Quaternion.identity);
+        StartCoroutine(SpawnInvaders(WaveCount, EnemysInWave, TimeBeforeStart, TimeBetweenWaves, TimeBetweenEnemySpawn));
     }
 }

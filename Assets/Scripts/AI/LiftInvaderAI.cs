@@ -91,6 +91,12 @@ public class LiftInvaderAI : MonoBehaviour {
         navMeshAgent.isStopped = true;
         clicker.AddEnemy(this.gameObject);
     }
+
+    public void Punched()
+    {
+        invaderState = LiftInvaderStates.WalkTo;
+        clicker.enemies.Remove(this.gameObject);
+    }
 }
 
 
