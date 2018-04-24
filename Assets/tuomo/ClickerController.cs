@@ -48,6 +48,7 @@ public class ClickerController : MonoBehaviour {
     public GameObject[] Buttons;
     public Image FailFiller;
     ClickerController instance;
+    AudioManager audioManager;
     Vector3 _leftDoorStart;
     Vector3 _leftDoorShortStart;
     Vector3 _rightDoorStart;
@@ -68,6 +69,13 @@ public class ClickerController : MonoBehaviour {
         if (depletionRates.Length != floors)
         {
             Debug.LogError("Floor amount does not match with depletion rates.");
+        }
+
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
+        if (!audioManager)
+        {
+            Debug.LogError("No audiomanager script found!");
         }
 
         SetFloorText(_currentFloor);
@@ -180,6 +188,7 @@ public class ClickerController : MonoBehaviour {
 
     void PushButton()
     {
+        audioManager.PlayButtonSound();
         _currentHealth += clickPower;
         AdjustHealthSlider();
 
@@ -235,6 +244,7 @@ public class ClickerController : MonoBehaviour {
                 {
                     print("Floor " + _currentFloor + " starting.");
                     _currentState = PlayerState.Active;
+                    audioManager.PlayDingSound();
                     _currentHealth = startHealth;
                 }
             }
@@ -253,7 +263,8 @@ public class ClickerController : MonoBehaviour {
     void OpenDoors()
     {
         _currentState = PlayerState.DoorsOpening;
-
+        audioManager.PlayDoorClosingSound();
+        audioManager.StopElevatorNoise();
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
@@ -262,6 +273,8 @@ public class ClickerController : MonoBehaviour {
 
     void LevelFinished()
     {
+        audioManager.PlayDoorClosingSound();
+        audioManager.PlayElevatorNoise(0.5f);
         _moveTimeLeft = waitTime;
         _currentState = PlayerState.Moving;
         WaveCount += 1;
@@ -418,7 +431,6 @@ public class ClickerController : MonoBehaviour {
 
     public void GoToMenu()
     {
-        // TODO: make menu screen and point this to it.
-        //SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0);
     }
 }
