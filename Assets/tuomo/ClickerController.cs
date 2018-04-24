@@ -16,10 +16,14 @@ public class ClickerController : MonoBehaviour {
     public int floors = 3;
     public float[] depletionRates;
     public float clickPower = 2f;
+<<<<<<< HEAD
     public int WaveCount = 2;
     public int EnemysInWave = 2;
     public float startTime = 2.0f;
     public float nextSpawnTime = 2.0f;
+=======
+    public float punchPower = 1f;
+>>>>>>> 2c9d4a30fdbdf35489a870ddd47f350f6167b307
 
     [Header("Elevator specs")]
     [Space(5)]
@@ -50,9 +54,12 @@ public class ClickerController : MonoBehaviour {
     float _moveTimeLeft;
     int _currentFloor = 1;
     float _enemyDepletionRate;
+    float enemyHp = 10;
+
+    //string[] _alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
 
-	void Start () {
+    void Start () {
         instance = this;
 
         if (depletionRates.Length != floors)
@@ -86,6 +93,11 @@ public class ClickerController : MonoBehaviour {
                     PushButton();
                 }
 
+                if(Input.GetKeyDown(KeyCode.P))
+                {
+                    HitFirstEnemy();
+                }
+
                 ReduceHealth();
                 AdjustFloors(_currentHealth);
 
@@ -112,14 +124,14 @@ public class ClickerController : MonoBehaviour {
                 break;
         }
 
-        // DEBUG ENEMY SPAWNER
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            GameObject g = Instantiate(enemyPrefab,
-                                       new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), Random.Range(-3f, 3f)),
-                                       Quaternion.identity);
-            AddEnemy(g);
-        }
+        //// DEBUG ENEMY SPAWNER
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    GameObject g = Instantiate(enemyPrefab,
+        //                               new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), Random.Range(-3f, 3f)),
+        //                               Quaternion.identity);
+        //    AddEnemy(g);
+        //}
 
         // DEBUG
         rateText.text = "Depletion rate: " + (depletionRates[_currentFloor - 1] + _enemyDepletionRate).ToString();
@@ -169,10 +181,21 @@ public class ClickerController : MonoBehaviour {
         var smooth = 5f;
         var t = Time.deltaTime;
 
-        leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
-        leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
-        rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
-        rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
+        if (newPosition != target)
+        {
+            leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
+            leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
+            rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
+            rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
+        }
+        else
+        {
+            leftDoor.transform.position = leftNewPos;
+            leftDoorShort.transform.position = leftShortNewPos;
+            rightDoor.transform.position = rightNewPos;
+            rightDoorShort.transform.position = rightShortNewPos;
+        }
+
 
         if (_currentState == PlayerState.DoorsOpening)
         {
@@ -261,6 +284,47 @@ public class ClickerController : MonoBehaviour {
     {
         enemies.Add(enemyAdded);
         _enemyDepletionRate += enemyStrength;
+        AssignButtonToEnemy(enemyAdded);
+    }
+
+    void AssignButtonToEnemy(GameObject thisEnemy)
+    {
+        //string s = _alphabet[Random.Range(0, _alphabet.Length)];
+        //thisEnemy.name = s;
+    }
+
+    void HitFirstEnemy()
+    {
+        if (enemies.Count == 0)
+        {
+            return;
+        }
+
+        float d = 100; // Nearest enemy distance
+        int j = 0; // Store nearest enemy position
+
+        for(int i = 0; i < enemies.Count; i++)
+        {
+            float f = Vector3.Distance(enemies[i].transform.position, transform.position);
+            if(f < d)
+            {
+                d = f;
+                j = i;
+            }
+        }
+
+        var e = enemies[j].GetComponent<LiftInvaderAI>();
+
+        if (!e)
+        {
+            return;
+        }
+
+        e.Punched();
+        //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
+        e.iHealth = punchPower;
+        _enemyDepletionRate -= enemyStrength;
+        print("Nearest enemy punched");
     }
 
     //public void RemoveEnemy(GameObject enemyRemoved)
