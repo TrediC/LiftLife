@@ -117,14 +117,14 @@ public class ClickerController : MonoBehaviour {
                 break;
         }
 
-        // DEBUG ENEMY SPAWNER
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            GameObject g = Instantiate(enemyPrefab,
-                                       new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), Random.Range(-3f, 3f)),
-                                       Quaternion.identity);
-            AddEnemy(g);
-        }
+        //// DEBUG ENEMY SPAWNER
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    GameObject g = Instantiate(enemyPrefab,
+        //                               new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), Random.Range(-3f, 3f)),
+        //                               Quaternion.identity);
+        //    AddEnemy(g);
+        //}
 
         // DEBUG
         rateText.text = "Depletion rate: " + (depletionRates[_currentFloor - 1] + _enemyDepletionRate).ToString();
@@ -311,8 +311,11 @@ public class ClickerController : MonoBehaviour {
             return;
         }
 
-        enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.up) * 50f, ForceMode.Impulse);
+        e.Punched();
+        //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
         e.iHealth = punchPower;
+        _enemyDepletionRate -= enemyStrength;
+        print("Nearest enemy punched");
     }
 
     //public void RemoveEnemy(GameObject enemyRemoved)
