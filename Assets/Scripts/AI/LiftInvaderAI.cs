@@ -1,14 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LiftInvaderAI : MonoBehaviour {
 
-    [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
-
+    public ClickerController clicker;
     public LiftInvaderStates invaderState;
-    public Transform[] wayPoints;
+    public List<Transform> wayPoints;
+    private float _Health = 5;
+    public float iHealth
+    {
+        get
+        {
+            return _Health;
+        }
+        set
+        {
+            _Health -= value; if(_Health <= 0)
+            {
+                invaderState = LiftInvaderStates.WalkTo;
+            }
+        }
+    }
 
+
+    [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
     [HideInInspector] public WalkTo walkToState;
     [HideInInspector] public OpenLift openLiftState;
     [HideInInspector] public ILiftInvader currentState;
@@ -18,11 +35,20 @@ public class LiftInvaderAI : MonoBehaviour {
         walkToState = new WalkTo(this);
         openLiftState = new OpenLift(this);
 
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Waypoint");
+        for(int t = 0; t < temp.Length; t++)
+        {
+            wayPoints.Add(temp[t].transform);
+        }
+        wayPoints = wayPoints.OrderBy(
+            x => Vector3.Distance(this.transform.position, x.transform.position)).ToList();
+
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     void Start ()
     {
+        clicker = GameObject.Find("GameController").GetComponent<ClickerController>();
         switch (invaderState)
         {
             case LiftInvaderStates.WalkTo:
@@ -63,6 +89,13 @@ public class LiftInvaderAI : MonoBehaviour {
     {
         invaderState = LiftInvaderStates.OpenLift;
         navMeshAgent.isStopped = true;
+        clicker.AddEnemy(this.gameObject);
+    }
+
+    public void Punched()
+    {
+        invaderState = LiftInvaderStates.WalkTo;
+        clicker.enemies.Remove(this.gameObject);
     }
 }
 

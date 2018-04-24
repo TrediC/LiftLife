@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Invader
   - Lift
+  - Waypoint
   layers:
   - Default
   - TransparentFX

@@ -30,7 +30,7 @@ public class WalkTo : ILiftInvader {
         if (liftInvaderAI.navMeshAgent.remainingDistance <= liftInvaderAI.navMeshAgent.stoppingDistance
             && !liftInvaderAI.navMeshAgent.pathPending)
         {
-            nextWayPoint = (nextWayPoint + 1) % liftInvaderAI.wayPoints.Length;
+            nextWayPoint = (nextWayPoint + 1) % liftInvaderAI.wayPoints.Count;
         }
     }
 
