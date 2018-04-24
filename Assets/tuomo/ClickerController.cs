@@ -16,14 +16,11 @@ public class ClickerController : MonoBehaviour {
     public int floors = 3;
     public float[] depletionRates;
     public float clickPower = 2f;
-<<<<<<< HEAD
     public int WaveCount = 2;
     public int EnemysInWave = 2;
     public float startTime = 2.0f;
     public float nextSpawnTime = 2.0f;
-=======
     public float punchPower = 1f;
->>>>>>> 2c9d4a30fdbdf35489a870ddd47f350f6167b307
 
     [Header("Elevator specs")]
     [Space(5)]
@@ -231,11 +228,7 @@ public class ClickerController : MonoBehaviour {
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
-<<<<<<< Updated upstream
-        lis.Spawn(WaveCount, EnemysInWave, startTime , nextSpawnTime);
-=======
-        lis.Spawn(2, 2, 2, 2);
->>>>>>> Stashed changes
+        lis.Spawn(WaveCount, EnemysInWave, startTime, nextSpawnTime);
     }
 
     void LevelFinished()
