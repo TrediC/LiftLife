@@ -203,6 +203,11 @@ public class ClickerController : MonoBehaviour {
     void OpenDoors()
     {
         _currentState = PlayerState.DoorsOpening;
+
+        LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
+        lis.canSpawnEnemys = true;
+
+        lis.Spawn(2, 2, 2, 2, 2);
     }
 
     void LevelFinished()
@@ -225,11 +230,24 @@ public class ClickerController : MonoBehaviour {
 
     void RemoveAllEnemies()
     {
+        LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
+        lis.canSpawnEnemys = false;
+
+        GameObject[] Enemys = GameObject.FindGameObjectsWithTag("Invader");
+        for(int e = 0; e < Enemys.Length; e++)
+        {
+            Destroy(Enemys[e]);
+        }
+        Enemys = null;
+
+        /* NOT IN USE
         foreach(GameObject enemy in enemies)
         {
             //enemies.Remove(enemy);
             Destroy(enemy);
         }
+        */
+
         _enemyDepletionRate = 0;
     }
 
