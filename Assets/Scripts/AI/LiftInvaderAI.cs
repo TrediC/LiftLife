@@ -4,9 +4,25 @@ using UnityEngine;
 
 public class LiftInvaderAI : MonoBehaviour {
 
-
+    public ClickerController clicker;
     public LiftInvaderStates invaderState;
-    public Transform[] wayPoints;
+    public List<Transform> wayPoints;
+    private float _Health = 5;
+    public float iHealth
+    {
+        get
+        {
+            return _Health;
+        }
+        set
+        {
+            _Health -= value; if(_Health <= 0)
+            {
+                invaderState = LiftInvaderStates.WalkTo;
+            }
+        }
+    }
+
 
     [HideInInspector] public UnityEngine.AI.NavMeshAgent navMeshAgent;
     [HideInInspector] public WalkTo walkToState;
@@ -18,11 +34,18 @@ public class LiftInvaderAI : MonoBehaviour {
         walkToState = new WalkTo(this);
         openLiftState = new OpenLift(this);
 
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Waypoint");
+        for(int t = 0; t < temp.Length; t++)
+        {
+            wayPoints.Add(temp[t].transform);
+        }
+
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     void Start ()
     {
+        clicker = GameObject.Find("GameController").GetComponent<ClickerController>();
         switch (invaderState)
         {
             case LiftInvaderStates.WalkTo:
@@ -63,6 +86,7 @@ public class LiftInvaderAI : MonoBehaviour {
     {
         invaderState = LiftInvaderStates.OpenLift;
         navMeshAgent.isStopped = true;
+        clicker.AddEnemy(this.gameObject);
     }
 }
 

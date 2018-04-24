@@ -13,7 +13,7 @@ public class OpenLift : ILiftInvader
 
     public void UpdateState()
     {
-        
+
     }
 
     public void WalkTo()
