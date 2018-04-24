@@ -9,13 +9,17 @@ public class ClickerController : MonoBehaviour {
     PlayerState _currentState;
 
     [Header("Difficulty settings")]
-    [Space(5)]
+    [Space(9)]
     public Slider healthSlider;
     public float startHealth = 0f;
     public float target = 100f;
     public int floors = 3;
     public float[] depletionRates;
     public float clickPower = 2f;
+    public int WaveCount = 2;
+    public int EnemysInWave = 2;
+    public float startTime = 2.0f;
+    public float nextSpawnTime = 2.0f;
 
     [Header("Elevator specs")]
     [Space(5)]
@@ -207,13 +211,15 @@ public class ClickerController : MonoBehaviour {
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
-        lis.Spawn(2, 2, 2, 2, 2);
+        lis.Spawn(WaveCount, EnemysInWave, startTime , nextSpawnTime);
     }
 
     void LevelFinished()
     {
         _moveTimeLeft = waitTime;
         _currentState = PlayerState.Moving;
+        WaveCount += 1;
+        EnemysInWave += 1;
     }
 
     void SetFloorText(int floorNumber)

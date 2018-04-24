@@ -31,19 +31,16 @@ public class LiftInvaderSpawner : MonoBehaviour {
 
     IEnumerator SpawnInvaders(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenEnemySpawn)
     {
-        int iWaveCount = WaveCount;
-        int iEnemysInWave = EnemysInWave;
-        float fTimeBeforeStart = TimeBeforeStart;
-        float fTimeBetweenEnemySpawn = TimeBetweenEnemySpawn;
-
         yield return new WaitForSeconds(TimeBeforeStart);
-        for (int i = 0; i < iWaveCount; i++)
+        for (int i = 0; i < WaveCount; i++)
         {
-            int randomSpawn = UnityEngine.Random.Range(0, iWaveCount);
-            Instantiate(Invader, ListOfSpawnPoints[randomSpawn].transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(TimeBetweenEnemySpawn);
+            for(int x = 0; x < EnemysInWave; x++)
+            {
+                int randomSpawn = UnityEngine.Random.Range(0, ListOfSpawnPoints.Length);
+                Instantiate(Invader, ListOfSpawnPoints[randomSpawn].transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(TimeBetweenEnemySpawn);
+            }
         }
-        SpawnInvaders(iWaveCount, iEnemysInWave, fTimeBeforeStart, fTimeBetweenEnemySpawn);
     }
 
     public void Spawn(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenEnemySpawn)
