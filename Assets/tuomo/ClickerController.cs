@@ -231,7 +231,11 @@ public class ClickerController : MonoBehaviour {
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
+<<<<<<< Updated upstream
         lis.Spawn(WaveCount, EnemysInWave, startTime , nextSpawnTime);
+=======
+        lis.Spawn(2, 2, 2, 2);
+>>>>>>> Stashed changes
     }
 
     void LevelFinished()
