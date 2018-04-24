@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1083857353962234}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.5, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -108,11 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 682ef6487e4737040a7a7d2e45139fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
+  clicker: {fileID: 0}
   invaderState: 0
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
+  wayPoints: []
+  navMeshAgent: {fileID: 0}
 --- !u!195 &195741951026258412
 NavMeshAgent:
   m_ObjectHideFlags: 1
