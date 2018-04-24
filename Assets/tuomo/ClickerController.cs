@@ -55,9 +55,6 @@ public class ClickerController : MonoBehaviour {
     private float failTimer = 0;
     private float failTimerFail = 20;
 
-    //string[] _alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-
-
     void Start () {
         instance = this;
 
@@ -158,7 +155,7 @@ public class ClickerController : MonoBehaviour {
         if(_currentHealth < 0)
         {
             _currentHealth = 0;
-            // Lose condition?
+            // Lose condition? If enemies on door and currenthealth < 0
 
             //_currentState = PlayerState.Inactive;
             //print("Player died!");
@@ -246,7 +243,7 @@ public class ClickerController : MonoBehaviour {
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
-        lis.Spawn(WaveCount, EnemysInWave, startTime , nextSpawnTime);
+        lis.Spawn(WaveCount, EnemysInWave, startTime, nextSpawnTime);
     }
 
     void LevelFinished()
@@ -298,13 +295,7 @@ public class ClickerController : MonoBehaviour {
     {
         enemies.Add(enemyAdded);
         _enemyDepletionRate += enemyStrength;
-        AssignButtonToEnemy(enemyAdded);
-    }
-
-    void AssignButtonToEnemy(GameObject thisEnemy)
-    {
-        //string s = _alphabet[Random.Range(0, _alphabet.Length)];
-        //thisEnemy.name = s;
+        //AssignButtonToEnemy(enemyAdded);
     }
 
     void HitFirstEnemy()
@@ -334,12 +325,10 @@ public class ClickerController : MonoBehaviour {
             return;
         }
 
-        e.Punched();
-        //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
         e.iHealth = punchPower;
-        _enemyDepletionRate -= enemyStrength;
         print("Nearest enemy punched");
     }
+<<<<<<< HEAD
 
     //public void RemoveEnemy(GameObject enemyRemoved)
     //{
@@ -358,4 +347,6 @@ public class ClickerController : MonoBehaviour {
     {
 
     }
+=======
+>>>>>>> 17346329e7ac541099c5b8682f5a2798ee10245f
 }
