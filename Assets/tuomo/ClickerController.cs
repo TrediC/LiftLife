@@ -11,7 +11,7 @@ public class ClickerController : MonoBehaviour {
     [Header("Difficulty settings")]
     [Space(5)]
     public Slider healthSlider;
-    public float startHealth = 5f;
+    public float startHealth = 0f;
     public float target = 100f;
     public int floors = 3;
     public float[] depletionRates;
@@ -20,7 +20,9 @@ public class ClickerController : MonoBehaviour {
     [Header("Elevator specs")]
     [Space(5)]
     public GameObject leftDoor;
+    public GameObject leftDoorShort;
     public GameObject rightDoor;
+    public GameObject rightDoorShort;
     public float moveDistance = 7f;
     public float waitTime = 5f;
 
@@ -35,15 +37,20 @@ public class ClickerController : MonoBehaviour {
     public Text floorText;
     public Text rateText;
 
-    Vector3 leftDoorStart;
-    Vector3 rightDoorStart;
-    float _currentDistance = 0f;
+    ClickerController instance;
+    Vector3 _leftDoorStart;
+    Vector3 _leftDoorShortStart;
+    Vector3 _rightDoorStart;
+    Vector3 _rightDoorShortStart;
     float _currentHealth;
     float _moveTimeLeft;
     int _currentFloor = 1;
     float _enemyDepletionRate;
 
+
 	void Start () {
+        instance = this;
+
         if (depletionRates.Length != floors)
         {
             Debug.LogError("Floor amount does not match with depletion rates.");
@@ -56,8 +63,10 @@ public class ClickerController : MonoBehaviour {
         healthSlider.minValue = 0;
         healthSlider.maxValue = target;
 
-        leftDoorStart = leftDoor.transform.position;
-        rightDoorStart = rightDoor.transform.position;
+        _leftDoorStart = leftDoor.transform.position;
+        _leftDoorShortStart = leftDoorShort.transform.position;
+        _rightDoorStart = rightDoor.transform.position;
+        _rightDoorShortStart = rightDoorShort.transform.position;
 
         AdjustHealthSlider();
 	}
@@ -147,16 +156,23 @@ public class ClickerController : MonoBehaviour {
 
     void AdjustFloors(float newPosition)
     {
-        Vector3 leftNewPos = leftDoorStart + new Vector3(newPosition / target * moveDistance, 0, 0);
-        Vector3 rightNewPos = rightDoorStart - new Vector3(newPosition / target * moveDistance, 0, 0);
-        var smooth = 5f;
+        var moveAmount = newPosition / target * moveDistance;
+        Vector3 leftNewPos = _leftDoorStart + new Vector3(moveAmount, 0, 0);
+        Vector3 leftShortNewPos = _leftDoorShortStart + new Vector3(moveAmount * 0.4f, 0, 0);
+        Vector3 rightNewPos = _rightDoorStart - new Vector3(moveAmount, 0, 0);
+        Vector3 rightShortNewPos = _rightDoorShortStart - new Vector3(moveAmount * 0.4f, 0, 0);
 
-        leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, Time.deltaTime * smooth);
-        rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, Time.deltaTime * smooth);
+        var smooth = 5f;
+        var t = Time.deltaTime;
+
+        leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
+        leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
+        rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
+        rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
 
         if (_currentState == PlayerState.DoorsOpening)
         {
-            if(Vector3.Distance(leftDoor.transform.position, leftDoorStart) < 0.1f && Vector3.Distance(rightDoor.transform.position, rightDoorStart) < 0.1f)
+            if(Vector3.Distance(leftDoor.transform.position, _leftDoorStart) < 0.1f && Vector3.Distance(rightDoor.transform.position, _rightDoorStart) < 0.1f)
             {
                 _currentFloor++;
                 SetFloorText(_currentFloor);
