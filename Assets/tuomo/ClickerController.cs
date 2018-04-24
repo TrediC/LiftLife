@@ -308,10 +308,7 @@ public class ClickerController : MonoBehaviour {
             return;
         }
 
-        //e.Punched();
-        //enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.right) * 1000f, ForceMode.VelocityChange);
         e.iHealth = punchPower;
-        //_enemyDepletionRate -= enemyStrength;
         print("Nearest enemy punched");
     }
 }
