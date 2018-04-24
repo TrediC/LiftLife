@@ -328,7 +328,6 @@ public class ClickerController : MonoBehaviour {
         e.iHealth = punchPower;
         print("Nearest enemy punched");
     }
-<<<<<<< HEAD
 
     //public void RemoveEnemy(GameObject enemyRemoved)
     //{
@@ -347,6 +346,4 @@ public class ClickerController : MonoBehaviour {
     {
 
     }
-=======
->>>>>>> 17346329e7ac541099c5b8682f5a2798ee10245f
 }
