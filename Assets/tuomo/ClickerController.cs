@@ -42,6 +42,8 @@ public class ClickerController : MonoBehaviour {
     public Text floorText;
     public Text rateText;
     public bool isTimerRunning = false;
+    public GameObject FailScreen;
+    public Image FailFiller;
     ClickerController instance;
     Vector3 _leftDoorStart;
     Vector3 _leftDoorShortStart;
@@ -78,11 +80,15 @@ public class ClickerController : MonoBehaviour {
         AdjustHealthSlider();
 	}
 	
-	void Update () {
-
+	void Update ()
+    {
         if (isTimerRunning)
         {
-            failTimer = Time.time;
+            float fillAmount = failTimer / failTimerFail;
+            FailFiller.fillAmount = fillAmount;
+
+            failTimer += Time.deltaTime;
+            
             if (failTimer >= failTimerFail)
             {
                 Fail();
@@ -238,8 +244,6 @@ public class ClickerController : MonoBehaviour {
     {
         _currentState = PlayerState.DoorsOpening;
 
-        failTimerFail += Time.time;
-
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
         lis.canSpawnEnemys = true;
 
@@ -253,6 +257,7 @@ public class ClickerController : MonoBehaviour {
         WaveCount += 1;
         EnemysInWave += 1;
         failTimer = 0;
+        FailFiller.fillAmount = 0;
         isTimerRunning = false;
     }
 
@@ -339,6 +344,7 @@ public class ClickerController : MonoBehaviour {
     public void Fail()
     {
         _currentState = PlayerState.Inactive;
+        FailScreen.SetActive(true);
         // Animaation?
     }
 
