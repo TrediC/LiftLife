@@ -16,6 +16,7 @@ public class ClickerController : MonoBehaviour {
     public int floors = 3;
     public float[] depletionRates;
     public float clickPower = 2f;
+    public float punchPower = 1f;
 
     [Header("Elevator specs")]
     [Space(5)]
@@ -46,9 +47,12 @@ public class ClickerController : MonoBehaviour {
     float _moveTimeLeft;
     int _currentFloor = 1;
     float _enemyDepletionRate;
+    float enemyHp = 10;
+
+    //string[] _alphabet = new string[26] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
 
-	void Start () {
+    void Start () {
         instance = this;
 
         if (depletionRates.Length != floors)
@@ -80,6 +84,11 @@ public class ClickerController : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     PushButton();
+                }
+
+                if(Input.GetKeyDown(KeyCode.P))
+                {
+                    HitFirstEnemy();
                 }
 
                 ReduceHealth();
@@ -165,10 +174,21 @@ public class ClickerController : MonoBehaviour {
         var smooth = 5f;
         var t = Time.deltaTime;
 
-        leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
-        leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
-        rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
-        rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
+        if (newPosition != target)
+        {
+            leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
+            leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
+            rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
+            rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
+        }
+        else
+        {
+            leftDoor.transform.position = leftNewPos;
+            leftDoorShort.transform.position = leftShortNewPos;
+            rightDoor.transform.position = rightNewPos;
+            rightDoorShort.transform.position = rightShortNewPos;
+        }
+
 
         if (_currentState == PlayerState.DoorsOpening)
         {
@@ -255,6 +275,44 @@ public class ClickerController : MonoBehaviour {
     {
         enemies.Add(enemyAdded);
         _enemyDepletionRate += enemyStrength;
+        AssignButtonToEnemy(enemyAdded);
+    }
+
+    void AssignButtonToEnemy(GameObject thisEnemy)
+    {
+        //string s = _alphabet[Random.Range(0, _alphabet.Length)];
+        //thisEnemy.name = s;
+    }
+
+    void HitFirstEnemy()
+    {
+        if (enemies.Count == 0)
+        {
+            return;
+        }
+
+        float d = 100; // Nearest enemy distance
+        int j = 0; // Store nearest enemy position
+
+        for(int i = 0; i < enemies.Count; i++)
+        {
+            float f = Vector3.Distance(enemies[i].transform.position, transform.position);
+            if(f < d)
+            {
+                d = f;
+                j = i;
+            }
+        }
+
+        var e = enemies[j].GetComponent<LiftInvaderAI>();
+
+        if (!e)
+        {
+            return;
+        }
+
+        enemies[j].gameObject.GetComponent<Rigidbody>().AddForce((Vector3.forward + Vector3.up) * 50f, ForceMode.Impulse);
+        e.iHealth = punchPower;
     }
 
     //public void RemoveEnemy(GameObject enemyRemoved)
