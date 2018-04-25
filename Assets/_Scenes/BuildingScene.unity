@@ -2318,6 +2318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e530f1cc2095aa4aabc7e9679225f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Arrow: {fileID: 1226748667}
+  arrowRotation: 0
+  levelFinish: 0
 --- !u!1 &1243317551
 GameObject:
   m_ObjectHideFlags: 0

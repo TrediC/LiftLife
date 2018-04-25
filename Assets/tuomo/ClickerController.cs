@@ -52,7 +52,7 @@ namespace GameController
         public Image FailFiller;
         public Text ScoreText;
         public GameObject PunchButton;
-        public float endRotation = -7;
+        public float endRotation = 7;
         LevelIndicator levelIndicator;
         ClickerController instance;
         AudioManager audioManager;
@@ -418,7 +418,7 @@ namespace GameController
             float alpha = WinScreen.GetComponent<Image>().color.a;
             for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
             {
-                Camera.main.transform.Rotate(0, endRotation * Time.deltaTime, 0);
+                Camera.main.transform.Rotate(0, -endRotation * Time.deltaTime, 0);
                 Camera.main.transform.Translate(Vector3.forward * Time.deltaTime);
                 Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
                 WinScreen.GetComponent<Image>().color = newColor;
