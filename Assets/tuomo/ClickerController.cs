@@ -26,9 +26,9 @@ public class ClickerController : MonoBehaviour {
     [Header("Elevator specs")]
     [Space(5)]
     public GameObject leftDoor;
-    public GameObject leftDoorShort;
+    //public GameObject leftDoorShort;
     public GameObject rightDoor;
-    public GameObject rightDoorShort;
+    //public GameObject rightDoorShort;
     public float moveDistance = 7f;
     public float waitTime = 5f;
 
