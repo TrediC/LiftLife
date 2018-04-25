@@ -52,9 +52,9 @@ public class ClickerController : MonoBehaviour {
     ClickerController instance;
     AudioManager audioManager;
     Vector3 _leftDoorStart;
-    Vector3 _leftDoorShortStart;
+    //Vector3 _leftDoorShortStart;
     Vector3 _rightDoorStart;
-    Vector3 _rightDoorShortStart;
+    //Vector3 _rightDoorShortStart;
     float _currentHealth;
     float _moveTimeLeft;
     int _currentFloor = 1;
@@ -87,7 +87,7 @@ public class ClickerController : MonoBehaviour {
             Debug.LogError("No audiomanager script found!");
         }
 
-        SetFloorText(_currentFloor);
+        //SetFloorText(_currentFloor);
 
         _currentState = PlayerState.Active;
         _currentHealth = startHealth;
@@ -95,9 +95,9 @@ public class ClickerController : MonoBehaviour {
         healthSlider.maxValue = target;
 
         _leftDoorStart = leftDoor.transform.position;
-        _leftDoorShortStart = leftDoorShort.transform.position;
+        //_leftDoorShortStart = leftDoorShort.transform.position;
         _rightDoorStart = rightDoor.transform.position;
-        _rightDoorShortStart = rightDoorShort.transform.position;
+        //_rightDoorShortStart = rightDoorShort.transform.position;
 
         AdjustHealthSlider();
 	}
@@ -135,7 +135,7 @@ public class ClickerController : MonoBehaviour {
                 AdjustFloors(_currentHealth);
 
                 score = Time.time;
-                ScoreText.text = score.ToString("0.00");
+                ScoreText.text = "Time: " + score.ToString("0.00");
 
                 print("Player active");
                 break;
@@ -217,9 +217,9 @@ public class ClickerController : MonoBehaviour {
     {
         var moveAmount = newPosition / target * moveDistance;
         Vector3 leftNewPos = _leftDoorStart + new Vector3(moveAmount, 0, 0);
-        Vector3 leftShortNewPos = _leftDoorShortStart + new Vector3(moveAmount * 0.4f, 0, 0);
+        //Vector3 leftShortNewPos = _leftDoorShortStart + new Vector3(moveAmount * 0.4f, 0, 0);
         Vector3 rightNewPos = _rightDoorStart - new Vector3(moveAmount, 0, 0);
-        Vector3 rightShortNewPos = _rightDoorShortStart - new Vector3(moveAmount * 0.4f, 0, 0);
+        //Vector3 rightShortNewPos = _rightDoorShortStart - new Vector3(moveAmount * 0.4f, 0, 0);
 
         var smooth = 5f;
         var t = Time.deltaTime;
@@ -227,16 +227,16 @@ public class ClickerController : MonoBehaviour {
         if (newPosition != target)
         {
             leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position, leftNewPos, t * smooth);
-            leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
+            //leftDoorShort.transform.position = Vector3.Lerp(leftDoorShort.transform.position, leftShortNewPos, t * smooth);
             rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position, rightNewPos, t * smooth);
-            rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
+            //rightDoorShort.transform.position = Vector3.Lerp(rightDoorShort.transform.position, rightShortNewPos, t * smooth);
         }
         else
         {
             leftDoor.transform.position = leftNewPos;
-            leftDoorShort.transform.position = leftShortNewPos;
+            //leftDoorShort.transform.position = leftShortNewPos;
             rightDoor.transform.position = rightNewPos;
-            rightDoorShort.transform.position = rightShortNewPos;
+            //rightDoorShort.transform.position = rightShortNewPos;
         }
 
 
@@ -245,7 +245,7 @@ public class ClickerController : MonoBehaviour {
             if(Vector3.Distance(leftDoor.transform.position, _leftDoorStart) < 0.1f && Vector3.Distance(rightDoor.transform.position, _rightDoorStart) < 0.1f)
             {
                 _currentFloor++;
-                SetFloorText(_currentFloor);
+                //SetFloorText(_currentFloor);
                 if(_currentFloor > floors)
                 {
                     Debug.LogError("Win condition reached.");
@@ -300,11 +300,12 @@ public class ClickerController : MonoBehaviour {
     {
         if (floorNumber <= floors)
         {
-            floorText.text = floorNumber.ToString();
+            floorText.text = "";
+            //floorText.text = floorNumber.ToString();
         }
         else
         {
-            floorText.text = "Penthouse";
+            //floorText.text = "Penthouse";
         }
     }
 

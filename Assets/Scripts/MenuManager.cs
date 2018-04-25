@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        highScore.text = PlayerPrefs.GetFloat("HighScore", defaultValue).ToString();
+        highScore.text = "High Score \n" + PlayerPrefs.GetFloat("HighScore", defaultValue).ToString("0.00");
 	}
 	
 	// Update is called once per frame
