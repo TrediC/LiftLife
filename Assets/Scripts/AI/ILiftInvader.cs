@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ILiftInvader
+namespace GameController
 {
-    void UpdateState();
-    void WalkTo();
-    void OpenLift();
-}
-public enum LiftInvaderStates
-{
-    WalkTo,
-    OpenLift
+    public interface ILiftInvader
+    {
+        void UpdateState();
+        void WalkTo();
+        void OpenLift();
+    }
+    public enum LiftInvaderStates
+    {
+        WalkTo,
+        OpenLift
+    }
 }

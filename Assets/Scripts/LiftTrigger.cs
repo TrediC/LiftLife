@@ -2,30 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiftTrigger : MonoBehaviour {
-
-    ClickerController cc;
-
-    private void Start()
+namespace GameController
+{
+    public class LiftTrigger : MonoBehaviour
     {
-        cc = GameObject.Find("GameController").GetComponent<ClickerController>();
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Invader"))
+
+        ClickerController cc;
+
+        private void Start()
         {
-            other.gameObject.GetComponent<LiftInvaderAI>().OpenLift();
+            cc = GameObject.Find("GameController").GetComponent<ClickerController>();
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.CompareTag("Invader"))
-            cc.isTimerRunning = true;
-        else
+        private void OnTriggerEnter(Collider other)
         {
-            cc.isTimerRunning = false;
+            if (other.gameObject.CompareTag("Invader"))
+            {
+                other.gameObject.GetComponent<LiftInvaderAI>().OpenLift();
+            }
         }
-    }
 
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.CompareTag("Invader"))
+                cc.isTimerRunning = true;
+            else
+            {
+                cc.isTimerRunning = false;
+            }
+        }
+
+    }
 }

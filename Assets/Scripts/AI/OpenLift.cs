@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenLift : ILiftInvader
+namespace GameController
 {
-    private readonly LiftInvaderAI liftInvaderAI;
-
-    public OpenLift(LiftInvaderAI liftInvaderAI)
+    public class OpenLift : ILiftInvader
     {
-        this.liftInvaderAI = liftInvaderAI;
-    }
+        private readonly LiftInvaderAI liftInvaderAI;
 
-    public void UpdateState()
-    {
+        public OpenLift(LiftInvaderAI liftInvaderAI)
+        {
+            this.liftInvaderAI = liftInvaderAI;
+        }
 
-    }
+        public void UpdateState()
+        {
 
-    public void WalkTo()
-    {
-        liftInvaderAI.currentState = liftInvaderAI.walkToState;
-    }
+        }
 
-    void ILiftInvader.OpenLift()
-    {
+        public void WalkTo()
+        {
+            liftInvaderAI.currentState = liftInvaderAI.walkToState;
+        }
 
+        void ILiftInvader.OpenLift()
+        {
+
+        }
     }
 }
