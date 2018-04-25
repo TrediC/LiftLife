@@ -277,8 +277,8 @@ public class ClickerController : MonoBehaviour {
         audioManager.PlayElevatorNoise(0.5f);
         _moveTimeLeft = waitTime;
         _currentState = PlayerState.Moving;
-        WaveCount += 1;
-        EnemysInWave += 1;
+        WaveCount++;
+        EnemysInWave++;
         failTimer = 0;
         FailFiller.fillAmount = 0;
         isTimerRunning = false;
@@ -332,7 +332,6 @@ public class ClickerController : MonoBehaviour {
         {
             return;
         }
-
         float d = 100; // Nearest enemy distance
         int j = 0; // Store nearest enemy position
 
@@ -352,6 +351,8 @@ public class ClickerController : MonoBehaviour {
         {
             return;
         }
+
+        _enemyDepletionRate -= enemyStrength;
 
         e.iHealth = punchPower;
         print("Nearest enemy punched");
