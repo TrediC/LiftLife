@@ -15,7 +15,17 @@ public class LiftTrigger : MonoBehaviour {
         if (other.gameObject.CompareTag("Invader"))
         {
             other.gameObject.GetComponent<LiftInvaderAI>().OpenLift();
-            cc.isTimerRunning = true;
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.CompareTag("Invader"))
+            cc.isTimerRunning = true;
+        else
+        {
+            cc.isTimerRunning = false;
+        }
+    }
+
 }

@@ -39,7 +39,7 @@ public class ClickerController : MonoBehaviour {
     public float enemyStrength = 2f;
 
     [Header("Misc")]
-    [Space(5)]
+    [Space(10)]
     public Text floorText;
     public Text rateText;
     public bool isTimerRunning = false;
@@ -47,6 +47,8 @@ public class ClickerController : MonoBehaviour {
     public GameObject WinScreen;
     public GameObject[] Buttons;
     public Image FailFiller;
+    public Text ScoreText;
+    public GameObject PunchButton;
     ClickerController instance;
     AudioManager audioManager;
     Vector3 _leftDoorStart;
@@ -60,11 +62,18 @@ public class ClickerController : MonoBehaviour {
     float enemyHp = 10;
     private float failTimer = 0;
     private float failTimerFail = 20;
+    private float score;
+    private float oldScore;
+    private float defaultValue;
 
     void Start () {
         instance = this;
         rateText.text = "";
         DisableButtons();
+
+        oldScore = PlayerPrefs.GetFloat("HighScore", defaultValue);
+        ScoreText.gameObject.SetActive(true);
+        PunchButton.SetActive(true);
 
         if (depletionRates.Length != floors)
         {
@@ -112,7 +121,7 @@ public class ClickerController : MonoBehaviour {
         {
             case PlayerState.Active:
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Fire1"))
                 {
                     PushButton();
                 }
@@ -124,6 +133,9 @@ public class ClickerController : MonoBehaviour {
 
                 ReduceHealth();
                 AdjustFloors(_currentHealth);
+
+                score = Time.time;
+                ScoreText.text = score.ToString("0.00");
 
                 print("Player active");
                 break;
@@ -326,7 +338,7 @@ public class ClickerController : MonoBehaviour {
         //AssignButtonToEnemy(enemyAdded);
     }
 
-    void HitFirstEnemy()
+    public void HitFirstEnemy()
     {
         if (enemies.Count == 0)
         {
@@ -375,6 +387,11 @@ public class ClickerController : MonoBehaviour {
 
     public void Win()
     {
+        ScoreText.gameObject.SetActive(false);
+        PunchButton.SetActive(false);
+        if(score < oldScore || oldScore == 0)
+            PlayerPrefs.SetFloat("HighScore", score);
+
         _currentState = PlayerState.Inactive;
 
         LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();

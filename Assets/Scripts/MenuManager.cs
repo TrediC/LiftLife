@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+    public Text highScore;
+    private float defaultValue;
+
+    // Use this for initialization
+    void Start () {
+        highScore.text = PlayerPrefs.GetFloat("HighScore", defaultValue).ToString();
 	}
 	
 	// Update is called once per frame
