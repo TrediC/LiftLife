@@ -11,8 +11,11 @@ namespace GameController
         ClickerController clicker;
         public GameObject Arrow;
         public float arrowRotation;
-
+        private float rotX;
+        private float rotY;
+        public bool levelFinish = false;
         private float rotationMount;
+        Quaternion endRot;
 
 
         // Use this for initialization
@@ -20,17 +23,18 @@ namespace GameController
         {
             clicker = GameObject.Find("GameController").GetComponent<ClickerController>();
             rotationMount = 180 / clicker.floors; // 180 is full rotation of arrow (-90 to 90)
+            rotX = transform.rotation.x;
+            rotY = transform.rotation.y;
         }
 
-        // Update is called once per frame
-        void FixedUpdate()
+        private void Update()
         {
+            if (levelFinish)
+                transform.Rotate(0, 0, Mathf.Lerp(arrowRotation, arrowRotation + rotationMount, Time.deltaTime / clicker.waitTime));
             
         }
-
         public void RotateArrow()
         {
-            transform.Rotate(new Vector3(0, 0, arrowRotation));
             rotationMount++;
         }
     }
