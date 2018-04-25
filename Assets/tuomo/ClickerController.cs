@@ -34,6 +34,7 @@ namespace GameController
         //public GameObject rightDoorShort;
         public float moveDistance = 7f;
         public float waitTime = 5f;
+        public Animator anim;
 
         [Header("Enemies")]
         [Space(5)]
@@ -144,7 +145,6 @@ namespace GameController
 
                     score = Time.time;
                     ScoreText.text = "Time: " + score.ToString("0.00");
-
                     print("Player active");
                     break;
 
@@ -186,7 +186,10 @@ namespace GameController
             // DEBUG
             //rateText.text = "Depletion rate: " + (depletionRates[_currentFloor - 1] + _enemyDepletionRate).ToString();
         }
-
+        private void FixedUpdate()
+        {
+            anim.SetBool("Push", false);
+        }
         void AdjustHealthSlider()
         {
             healthSlider.value = _currentHealth;
@@ -211,7 +214,6 @@ namespace GameController
             audioManager.PlayButtonSound();
             _currentHealth += clickPower;
             AdjustHealthSlider();
-
             if (_currentHealth >= target)
             {
                 print("Floor " + _currentFloor + " finished.");
@@ -219,6 +221,7 @@ namespace GameController
                 AdjustFloors(target);
                 LevelFinished();
             }
+            anim.SetBool("Push", true);
         }
 
         void AdjustFloors(float newPosition)

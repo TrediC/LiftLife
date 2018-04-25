@@ -483,6 +483,36 @@ Prefab:
       propertyPath: PunchButton
       value: 
       objectReference: {fileID: 1562156071}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButtonMovement.z
+      value: -0.00175
+      objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButtonMovement.y
+      value: 0.0054
+      objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButton
+      value: 
+      objectReference: {fileID: 1261278455}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButtonUnpressed.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButtonPressed.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: liftButtonPressed.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb689cf28292c634a8d008b44e541265, type: 2}
   m_IsPrefabParent: 0
@@ -886,7 +916,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4610443907987844, guid: 73548087e35427f45a52edb80363e7f0, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4610443907987844, guid: 73548087e35427f45a52edb80363e7f0, type: 2}
       propertyPath: m_LocalPosition.y
@@ -894,7 +924,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4610443907987844, guid: 73548087e35427f45a52edb80363e7f0, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.0004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4610443907987844, guid: 73548087e35427f45a52edb80363e7f0, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2483,6 +2513,11 @@ Transform:
   m_Father: {fileID: 347069930}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+--- !u!1 &1261278455 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1849487868691310, guid: 73548087e35427f45a52edb80363e7f0,
+    type: 2}
+  m_PrefabInternal: {fileID: 401356279}
 --- !u!1 &1388739351
 GameObject:
   m_ObjectHideFlags: 0
