@@ -57,6 +57,7 @@ namespace GameController
         public Text ScoreText;
         public GameObject PunchButton;
         public float endRotation = 7;
+        public Material[] indicatorMaterial;
         LevelIndicator levelIndicator;
         ClickerController instance;
         LiftInvaderSpawner lis;
@@ -75,14 +76,15 @@ namespace GameController
         private float score;
         private float oldScore;
         private float defaultValue;
-
+        private Material material;
         void Start()
         {
             lis = gameObject.GetComponent<LiftInvaderSpawner>();
             instance = this;
             rateText.text = "";
             DisableButtons();
-
+            material = GetComponent<Material>();
+            material = indicatorMaterial[0];
             levelIndicator = GameObject.Find("storymeter_arrow").GetComponent<LevelIndicator>();
 
             oldScore = PlayerPrefs.GetFloat("HighScore", defaultValue);
@@ -318,6 +320,7 @@ namespace GameController
             levelIndicator.RotateArrow();
             levelIndicator.levelFinish = true;
             lis.ClearSpawnPoints();
+            material = indicatorMaterial[_currentFloor];
         }
 
         void SetFloorText(int floorNumber)
