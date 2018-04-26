@@ -11,6 +11,9 @@ namespace GameController
 
         enum PlayerState { Active, Moving, Inactive, DoorsOpening }
         PlayerState _currentState;
+        [Header("Floor Objects")]
+        [Space(1)]
+        public GameObject[] FloorList;
 
         [Header("Difficulty settings")]
         [Space(11)]
@@ -56,6 +59,7 @@ namespace GameController
         public float endRotation = 7;
         LevelIndicator levelIndicator;
         ClickerController instance;
+        LiftInvaderSpawner lis;
         AudioManager audioManager;
         Vector3 _leftDoorStart;
         //Vector3 _leftDoorShortStart;
@@ -74,6 +78,7 @@ namespace GameController
 
         void Start()
         {
+            lis = gameObject.GetComponent<LiftInvaderSpawner>();
             instance = this;
             rateText.text = "";
             DisableButtons();
@@ -279,6 +284,9 @@ namespace GameController
             _moveTimeLeft -= Time.deltaTime;
             if (_moveTimeLeft < 0)
             {
+                FloorList[_currentFloor - 1].gameObject.SetActive(false);
+                FloorList[_currentFloor].gameObject.SetActive(true);
+                lis.FindNewSpawnPoints();
                 OpenDoors();
             }
         }
@@ -309,6 +317,7 @@ namespace GameController
             isTimerRunning = false;
             levelIndicator.RotateArrow();
             levelIndicator.levelFinish = true;
+            lis.ClearSpawnPoints();
         }
 
         void SetFloorText(int floorNumber)
@@ -326,7 +335,6 @@ namespace GameController
 
         void RemoveAllEnemies()
         {
-            LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
             lis.canSpawnEnemys = false;
 
             GameObject[] Enemys = GameObject.FindGameObjectsWithTag("Invader");
@@ -410,7 +418,6 @@ namespace GameController
 
             _currentState = PlayerState.Inactive;
 
-            LiftInvaderSpawner lis = GetComponent<LiftInvaderSpawner>();
             lis.canSpawnEnemys = false;
 
             StartCoroutine(FadeTo(1f, 3f));

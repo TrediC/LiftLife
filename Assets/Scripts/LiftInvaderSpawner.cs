@@ -10,7 +10,7 @@ namespace GameController
         [Header("Enemy obj")]
         [Space(2)]
         public GameObject Invader;
-        public GameObject[] ListOfSpawnPoints;
+        public List<GameObject> ListOfSpawnPoints;
 
         /*  NOT IN USE
         [Header("Enemy Wave Settings")]
@@ -21,9 +21,13 @@ namespace GameController
         public float fTimeBetweenWaves = 3.0f;
         public float fTimeBetweenEnemySpawns = 2.0f;
         */
-
+        
         public bool canSpawnEnemys = true;
 
+        private void Start()
+        {
+            FindNewSpawnPoints();
+        }
         void Update()
         {
             if (!canSpawnEnemys)
@@ -39,7 +43,7 @@ namespace GameController
             {
                 for (int x = 0; x < EnemysInWave; x++)
                 {
-                    int randomSpawn = UnityEngine.Random.Range(0, ListOfSpawnPoints.Length);
+                    int randomSpawn = UnityEngine.Random.Range(0, ListOfSpawnPoints.Count);
                     Instantiate(Invader, ListOfSpawnPoints[randomSpawn].transform.position, Quaternion.identity);
                     yield return new WaitForSeconds(TimeBetweenEnemySpawn);
                 }
@@ -49,6 +53,15 @@ namespace GameController
         public void Spawn(int WaveCount, int EnemysInWave, float TimeBeforeStart, float TimeBetweenEnemySpawn)
         {
             StartCoroutine(SpawnInvaders(WaveCount, EnemysInWave, TimeBeforeStart, TimeBetweenEnemySpawn));
+        }
+        public void FindNewSpawnPoints()
+        {
+            ListOfSpawnPoints.AddRange(GameObject.FindGameObjectsWithTag("StartLocation"));
+        }
+
+        public void ClearSpawnPoints()
+        {
+            ListOfSpawnPoints.Clear();
         }
     }
 }
