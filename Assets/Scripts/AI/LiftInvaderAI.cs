@@ -8,7 +8,7 @@ namespace GameController
 {
     public class LiftInvaderAI : MonoBehaviour
     {
-
+        public Animator enemyAnimation;
         public ClickerController clicker;
         public LiftInvaderStates invaderState;
         public List<Transform> wayPoints;
@@ -45,7 +45,7 @@ namespace GameController
         {
             walkToState = new WalkTo(this);
             openLiftState = new OpenLift(this);
-
+            enemyAnimation = GetComponent<Animator>();
             GameObject[] temp = GameObject.FindGameObjectsWithTag("Waypoint");
             for (int t = 0; t < temp.Length; t++)
             {
@@ -102,6 +102,8 @@ namespace GameController
         public void OpenLift()
         {
             invaderState = LiftInvaderStates.OpenLift;
+            enemyAnimation.SetBool("Walk", false);
+            enemyAnimation.SetBool("Fuck", true);
             navMeshAgent.isStopped = true;
             clicker.AddEnemy(this.gameObject);
         }
@@ -109,6 +111,8 @@ namespace GameController
         public void Punched()
         {
             invaderState = LiftInvaderStates.WalkTo;
+            enemyAnimation.SetBool("Fuck", false);
+            enemyAnimation.SetBool("Walk", true);
             clicker.enemies.Remove(this.gameObject);
         }
 
