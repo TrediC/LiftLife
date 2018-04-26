@@ -57,7 +57,6 @@ namespace GameController
         public Text ScoreText;
         public GameObject PunchButton;
         public float endRotation = 7;
-        public Material[] indicatorMaterial;
         LevelIndicator levelIndicator;
         ClickerController instance;
         LiftInvaderSpawner lis;
@@ -115,9 +114,6 @@ namespace GameController
             //_rightDoorShortStart = rightDoorShort.transform.position;
 
             AdjustHealthSlider();
-
-            material = GetComponent<Material>();
-            material = indicatorMaterial[0];
         }
 
         void Update()
@@ -322,8 +318,6 @@ namespace GameController
             levelIndicator.RotateArrow();
             levelIndicator.levelFinish = true;
             lis.ClearSpawnPoints();
-            if(indicatorMaterial.Length < 1)
-                material = indicatorMaterial[_currentFloor];
         }
 
         void SetFloorText(int floorNumber)
