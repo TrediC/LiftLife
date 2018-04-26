@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -64,7 +64,8 @@ LightmapSettings:
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
     m_Padding: 2
-    m_LightmapParameters: {fileID: 0}
+    m_LightmapParameters: {fileID: 15204, guid: 0000000000000000f000000000000000,
+      type: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
     m_FinalGather: 0
@@ -203,6 +204,11 @@ Prefab:
         type: 2}
       propertyPath: FloorList.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: indicatorMaterial.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4193933657461092, guid: bb689cf28292c634a8d008b44e541265, type: 2}
       propertyPath: m_LocalPosition.x
@@ -392,6 +398,11 @@ Prefab:
       value: 
       objectReference: {fileID: 1310714329008508, guid: 1e317390031088749b3e02a35fcc1020,
         type: 2}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: indicatorMaterial.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc062e85aaa6b684faa17326baf3b860, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb689cf28292c634a8d008b44e541265, type: 2}
   m_IsPrefabParent: 0
@@ -2596,7 +2607,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
