@@ -5,8 +5,8 @@
 		_Color("first Color", Color) = (1,1,1,1)
 		_Color2("second Color", Color) = (1,1,1,1)
 		_speed("blink speed", range(0,5)) = 1
-		_SineMag("Sine amplitude", range(0,1)) = 1
-		_push("push value",Range(-1,1)) = 1
+		_SineMag("Sine amplitude", range(0,1)) = 0.5
+		_push("push value",Range(-1,1)) = 0.5
 	}
 	SubShader
 	{
