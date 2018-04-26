@@ -83,8 +83,7 @@ namespace GameController
             instance = this;
             rateText.text = "";
             DisableButtons();
-            material = GetComponent<Material>();
-            material = indicatorMaterial[0];
+            
             levelIndicator = GameObject.Find("storymeter_arrow").GetComponent<LevelIndicator>();
 
             oldScore = PlayerPrefs.GetFloat("HighScore", defaultValue);
@@ -116,6 +115,9 @@ namespace GameController
             //_rightDoorShortStart = rightDoorShort.transform.position;
 
             AdjustHealthSlider();
+
+            material = GetComponent<Material>();
+            material = indicatorMaterial[0];
         }
 
         void Update()
@@ -320,7 +322,8 @@ namespace GameController
             levelIndicator.RotateArrow();
             levelIndicator.levelFinish = true;
             lis.ClearSpawnPoints();
-            material = indicatorMaterial[_currentFloor];
+            if(indicatorMaterial.Length < 1)
+                material = indicatorMaterial[_currentFloor];
         }
 
         void SetFloorText(int floorNumber)

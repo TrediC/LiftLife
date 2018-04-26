@@ -204,6 +204,11 @@ Prefab:
       propertyPath: FloorList.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: indicatorMaterial.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4193933657461092, guid: bb689cf28292c634a8d008b44e541265, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -392,6 +397,11 @@ Prefab:
       value: 
       objectReference: {fileID: 1310714329008508, guid: 1e317390031088749b3e02a35fcc1020,
         type: 2}
+    - target: {fileID: 114963253351546070, guid: bb689cf28292c634a8d008b44e541265,
+        type: 2}
+      propertyPath: indicatorMaterial.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc062e85aaa6b684faa17326baf3b860, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bb689cf28292c634a8d008b44e541265, type: 2}
   m_IsPrefabParent: 0
